@@ -104,33 +104,23 @@ class SAW:
                     y = path[0][1]
                     W[m][n] = W[m][n - 1] / 3.
                 if len(path) == 2:
-                    p = np.random.rand()
-                    if p < 0.5:
-                        x = path[0][0]
-                        y = path[0][1]
-                    else:
-                        x = path[1][0]
-                        y = path[1][1]
+                    p = np.random.rand() * 2
+                    idx = int(p)
+                    x = path[idx][0]
+                    y = path[idx][1]
                     W[m][n] = (W[m][n - 1] * 2.) / 3.
                 if len(path) == 3:
                     p = np.random.rand() * 3
-                    if p < 1:
-                        x = path[0][0]
-                        y = path[0][1]
-                    elif p < 2:
-                        x = path[1][0]
-                        y = path[1][1]
-                    else:
-                        x = path[2][0]
-                        y = path[2][1]
+                    idx = int(p)
+                    x = path[idx][0]
+                    y = path[idx][1]
                     W[m][n] = W[m][n - 1]
 
                 lattice[x][y] = True
                 R_2[m][n] = (x - x0 - N - 1) ** 2 + (y - y0 - N - 1) ** 2
 
         self.ave_R_2 = np.sum(W * R_2, axis=0, dtype=np.float32) \
-            /                                       \
-            np.sum(W, axis=0, dtype=np.float32)
+                       / np.sum(W, axis=0, dtype=np.float32)
 
 
 def plot_graph(x_data, y_data, x_labels, y_labels,
@@ -181,8 +171,8 @@ if __name__ == '__main__':
 
         x_labels = [r'$N$'] * 2
         y_labels = [r'$f(N)$', r'$<R^{2}(N)>$']
-        plot_graph([range(1, N + 1)] * 2, [
-                   rw.f_N, rw.ave_R_2], x_labels, y_labels)
+        plot_graph([range(1, N + 1)] * 2, [rw.f_N, rw.ave_R_2],
+                   x_labels, y_labels)
 
     def ex_b(N):
         rw = SAW()
@@ -215,7 +205,7 @@ if __name__ == '__main__':
                 return residual
 
             result = optimize.leastsq(fit_func, parameter0,
-                                      args=(np.array(range(1, N + 1)), rw.ave_R_2))
+                                  args=(np.array(range(1, N + 1)), rw.ave_R_2))
 
             nu[i] = result[0][1]
 

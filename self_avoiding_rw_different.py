@@ -63,8 +63,7 @@ def self_avoiding_rw_Rosenbluth(N, x0=0, y0=0):
             R_2[m][n] = (x - x0 - N - 1) ** 2 + (y - y0 - N - 1) ** 2
 
     ave_R_2 = np.sum(W * R_2, axis=0, dtype=np.float32) \
-        /                                       \
-        np.sum(W, axis=0, dtype=np.float32)
+              / np.sum(W, axis=0, dtype=np.float32)
 
     print W * R_2
     print ave_R_2
